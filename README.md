@@ -33,3 +33,64 @@ An interactive [Streamlit](https://streamlit.io) dashboard allows dynamic explor
    ```bash
    git clone https://github.com/gayathrijayaraj30/f1-telemetry-analyzer.git
    cd f1-telemetry-analyzer
+
+
+2. **Install dependencies** (preferably in a virtual environment):
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. **Run the app**:
+
+   ```bash
+   streamlit run app.py
+   ```
+
+---
+
+## 🖥️ Usage
+
+* Select a season, Grand Prix, and session type from the sidebar.
+* Choose a clustering algorithm and tweak its parameters.
+* Visualize driver clusters in 2D space using PCA.
+* View SHAP plots to interpret feature contributions to clusters.
+
+---
+
+## 📎 Requirements
+
+* Python 3.8+
+* FastF1
+* Streamlit
+* scikit-learn
+* pandas, numpy
+* SHAP
+* Plotly
+* Matplotlib
+
+(Full list in `requirements.txt`)
+
+---
+
+## 🔗 Links
+
+* 📊 **Live App**: [f1-telemetry-analyzer.streamlit.app](https://f1-telemetry-analyzer.streamlit.app)
+* 📁 **Dataset Source**: [FastF1](https://theoehrly.github.io/Fast-F1/)
+* 📚 **FastF1 Docs**: [FastF1 Documentation](https://theoehrly.github.io/Fast-F1/)
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+---
+
+## 🙌 Acknowledgments
+
+* [FastF1](https://github.com/theOehrly/Fast-F1) for telemetry data access.
+* [Streamlit](https://streamlit.io) for app deployment.
+* [SHAP](https://github.com/slundberg/shap) for model interpretability.
+
+
