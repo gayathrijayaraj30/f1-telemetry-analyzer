@@ -170,7 +170,7 @@ st.markdown("""
 - The PCA plot visualizes how these driving styles differ in a 2D space.
 - SHAP analysis highlights which features most influence the cluster assignments.
 
-### 🧪 Clustering Validation Metrics Explained:
+### Clustering Validation Metrics Explained:
 - **Silhouette Score** (range `-1` to `1`): Measures how well each driver fits within its assigned cluster. Values closer to **1** indicate well-separated, dense clusters; values near **0** suggest overlapping clusters.
 - **Davies–Bouldin Index** (lower is better): Captures average similarity between clusters. A **lower score** means better cluster separation and compactness.
 - **Calinski–Harabasz Score** (higher is better): Reflects how distinct the clusters are based on between- and within-cluster dispersion. **Higher values** indicate more well-defined clusters.
