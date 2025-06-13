@@ -21,7 +21,7 @@ def plot_telemetry_distributions(laps: pd.DataFrame):
             marginal="rug"
         )
         figs.append(fig)
-    return figs  # return list of figures
+    return figs
 
 def compare_features_across_drivers(features_df: pd.DataFrame, feature_cols=None, log_scale=False, normalize=False):
     if feature_cols is None:
@@ -54,19 +54,10 @@ def pairplot_features(features_df: pd.DataFrame):
     fig.update_layout(height=800)
     return fig
 
-def apply_clustering(scaled_features: pd.DataFrame, original_features: pd.DataFrame, method='kmeans', **kwargs) -> pd.DataFrame:
-    """
-    Apply clustering on scaled_features and return original_features with cluster labels.
-    
-    Parameters:
-    - scaled_features: DataFrame of scaled numerical features.
-    - original_features: Original features DataFrame to append cluster labels.
-    - method: Clustering method ('kmeans', 'agglomerative', 'dbscan').
-    - kwargs: Additional arguments for clustering algorithms.
-    
-    Returns:
-    - DataFrame: original_features with a new 'cluster' column.
-    """
+from sklearn.metrics import silhouette_score, davies_bouldin_score, calinski_harabasz_score
+from sklearn.exceptions import NotFittedError
+
+def apply_clustering(scaled_features: pd.DataFrame, original_features: pd.DataFrame, method='kmeans', **kwargs):
     if method == 'kmeans':
         n_clusters = kwargs.get('n_clusters', 3)
         model = KMeans(n_clusters=n_clusters, random_state=42)
@@ -81,6 +72,31 @@ def apply_clustering(scaled_features: pd.DataFrame, original_features: pd.DataFr
         raise ValueError(f"Unsupported clustering method: {method}")
 
     clusters = model.fit_predict(scaled_features)
-    result = original_features.copy()
-    result['cluster'] = clusters
-    return result
+    result_df = original_features.copy()
+    result_df['cluster'] = clusters
+
+    n_unique = len(set(clusters)) - (1 if -1 in clusters else 0)
+    if n_unique > 1:
+        try:
+            silhouette = silhouette_score(scaled_features, clusters)
+        except:
+            silhouette = None
+        try:
+            db_score = davies_bouldin_score(scaled_features, clusters)
+        except:
+            db_score = None
+        try:
+            ch_score = calinski_harabasz_score(scaled_features, clusters)
+        except:
+            ch_score = None
+    else:
+        silhouette = db_score = ch_score = None
+
+    metrics = {
+        'silhouette_score': silhouette,
+        'davies_bouldin_score': db_score,
+        'calinski_harabasz_score': ch_score,
+        'num_clusters': n_unique
+    }
+
+    return result_df, metrics
