@@ -14,6 +14,7 @@ os.makedirs(CACHE_DIR, exist_ok=True)
 fastf1.Cache.enable_cache(CACHE_DIR)
 
 def load_telemetry_data(year: int = 2023, gp: str = 'Monaco', session_type: str = 'Q') -> pd.DataFrame:
+    logger.info(f"Attempting to load session for {year} - {gp} - {session_type}")
     session = fastf1.get_session(year, gp, session_type)
     session.load()
     laps = session.laps.reset_index(drop=True).copy()
