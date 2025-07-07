@@ -2,14 +2,13 @@ import os
 import logging
 from collections import defaultdict
 from typing import Tuple, List, Dict
+from datetime import datetime
 
 import fastf1
 import pandas as pd
 
-# Setup logging
 logger = logging.getLogger(__name__)
 
-# Enable FastF1 cache
 CACHE_DIR = 'cache'
 os.makedirs(CACHE_DIR, exist_ok=True)
 fastf1.Cache.enable_cache(CACHE_DIR)
@@ -21,7 +20,7 @@ def load_telemetry_data(year: int = 2023, gp: str = 'Monaco', session_type: str 
     laps['Driver'] = laps['Driver'].astype(str)
     return laps
 
-def get_available_race_data(start_year: int = 2018, end_year: int = 2023):
+def get_available_race_data(start_year: int = 2018, end_year: int = datetime.now().year):
     years = []
     gps_by_year = defaultdict(list)
     sessions_by_year_gp = defaultdict(list)
