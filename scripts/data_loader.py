@@ -26,8 +26,7 @@ def get_latest_available_year(start_year: int = 2018) -> int:
             logger.warning(f"Failed to load calendar for {year}: {e}")
     raise ValueError("No available year found with race data.")
 
-def load_telemetry_data(gp: str = 'Monaco', session_type: str = 'Q') -> pd.DataFrame:
-    year = get_latest_available_year()
+def load_telemetry_data(year: int, gp: str, session_type: str) -> pd.DataFrame:
     session = fastf1.get_session(year, gp, session_type)
     session.load()
     laps = session.laps.reset_index(drop=True).copy()
