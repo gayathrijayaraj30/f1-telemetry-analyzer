@@ -11,7 +11,7 @@ from datetime import datetime
 logger = logging.getLogger(__name__)
 
 # Enable FastF1 cache
-CACHE_DIR = 'cache'
+CACHE_DIR = '/tmp/fastf1_cache'
 os.makedirs(CACHE_DIR, exist_ok=True)
 fastf1.Cache.enable_cache(CACHE_DIR)
 
