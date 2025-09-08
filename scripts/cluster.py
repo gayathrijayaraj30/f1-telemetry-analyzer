@@ -39,11 +39,11 @@ def compare_features_across_drivers(features_df: pd.DataFrame, feature_cols=None
         if log_scale:
             fig.update_yaxes(type="log")
         figs.append(fig)
-    return figs  # return list of figures
+    return figs  
 
 def pairplot_features(features_df: pd.DataFrame):
     if 'driver_number' not in features_df.columns:
-        return None  # or raise an error / message
+        return None
 
     numeric_df = features_df.select_dtypes(include=['float64', 'int']).drop(columns=['cluster', 'driver', 'driver_number'], errors='ignore')
     if numeric_df.empty:
@@ -54,7 +54,7 @@ def pairplot_features(features_df: pd.DataFrame):
     fig.update_layout(height=800)
     return fig
 
-from sklearn.metrics import silhouette_score, davies_bouldin_score, calinski_harabasz_score
+from sklearn.metrics import silhouette_score
 from sklearn.exceptions import NotFittedError
 
 def apply_clustering(scaled_features: pd.DataFrame, original_features: pd.DataFrame, method='kmeans', **kwargs):
@@ -81,21 +81,11 @@ def apply_clustering(scaled_features: pd.DataFrame, original_features: pd.DataFr
             silhouette = silhouette_score(scaled_features, clusters)
         except:
             silhouette = None
-        try:
-            db_score = davies_bouldin_score(scaled_features, clusters)
-        except:
-            db_score = None
-        try:
-            ch_score = calinski_harabasz_score(scaled_features, clusters)
-        except:
-            ch_score = None
     else:
-        silhouette = db_score = ch_score = None
+        silhouette = None
 
     metrics = {
         'silhouette_score': silhouette,
-        'davies_bouldin_score': db_score,
-        'calinski_harabasz_score': ch_score,
         'num_clusters': n_unique
     }
 
