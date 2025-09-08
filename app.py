@@ -127,11 +127,9 @@ st.write(f"**Number of clusters identified:** {num_clusters}")
 st.write("**Number of drivers in each cluster:**")
 st.write(drivers_per_cluster)
 
-# Ensure numeric columns are numeric type before aggregation
 for col in ['brake_mean', 'throttle_mean', 'speed_mean', 'rpm_mean']:
     clustered_df[col] = pd.to_numeric(clustered_df[col], errors='coerce')
 
-# Aggregate only numeric columns
 numeric_cols = ['brake_mean', 'throttle_mean', 'speed_mean', 'rpm_mean']
 cluster_summary = clustered_df.groupby('cluster')[numeric_cols].mean()
 
@@ -141,23 +139,13 @@ if cluster_metrics['num_clusters'] <= 1:
     st.warning("Not enough clusters were formed to evaluate clustering metrics.")
 else:
     silhouette = cluster_metrics['silhouette_score']
-    db_score = cluster_metrics['davies_bouldin_score']
-    ch_score = cluster_metrics['calinski_harabasz_score']
 
     if silhouette is not None:
         st.write(f"**Silhouette Score:** {silhouette:.3f}")
     else:
         st.write("**Silhouette Score:** Not available")
 
-    if db_score is not None:
-        st.write(f"**Davies–Bouldin Index:** {db_score:.3f}")
-    else:
-        st.write("**Davies–Bouldin Index:** Not available")
 
-    if ch_score is not None:
-        st.write(f"**Calinski–Harabasz Score:** {ch_score:.3f}")
-    else:
-        st.write("**Calinski–Harabasz Score:** Not available")
 
 
 st.markdown("### Cluster average feature values:")
@@ -172,10 +160,8 @@ st.markdown("""
 
 ### Clustering Validation Metrics Explained:
 - **Silhouette Score** (range `-1` to `1`): Measures how well each driver fits within its assigned cluster. Values closer to **1** indicate well-separated, dense clusters; values near **0** suggest overlapping clusters.
-- **Davies–Bouldin Index** (lower is better): Captures average similarity between clusters. A **lower score** means better cluster separation and compactness.
-- **Calinski–Harabasz Score** (higher is better): Reflects how distinct the clusters are based on between- and within-cluster dispersion. **Higher values** indicate more well-defined clusters.
 
-These metrics will automatically update when you change the clustering method or tweak its parameters. Use them together to compare the quality of different clustering models.
+The above metric will automatically update when you change the clustering method or tweak its parameters. Use them to compare the quality of different clustering models.
 
 ### What this means:
 - Teams and analysts can use these clusters to identify driver tendencies.
